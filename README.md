@@ -1,6 +1,5 @@
 ---
-
-LumenaSOL
+# LumenaSOL
 
 > AI-powered transaction intelligence for Solana.
 
@@ -11,7 +10,7 @@ Understand every transaction before you sign.
 
 ---
 
-Overview
+## Overview
 
 LumenaSOL is an AI-powered transaction intelligence layer that helps users understand Solana transactions in plain English before approving them.
 
@@ -22,7 +21,7 @@ LumenaSOL does not replace wallets, execute transactions, or make decisions on b
 
 ---
 
-The Problem
+## The Problem
 
 Signing a transaction on Solana often requires trusting information that is difficult to interpret.
 
@@ -59,7 +58,7 @@ Users are expected to approve transactions they do not fully understand.
 
 ---
 
-Our Solution
+## Our Solution
 
 LumenaSOL bridges the gap between raw blockchain data and human understanding.
 
@@ -87,7 +86,7 @@ The objective is to help users make informed decisions.
 
 ---
 
-Why AI?
+## Why AI?
 
 AI is often used to automate actions.
 
@@ -108,7 +107,7 @@ Instead, AI serves as an intelligent explanation layer on top of verified transa
 
 ---
 
-Core Principles
+## Core Principles
 
 LumenaSOL is built around several principles.
 
