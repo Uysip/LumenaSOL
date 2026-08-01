@@ -1,9 +1,26 @@
 # LumenaSOL
+[![Status](https://img.shields.io/badge/status-Planning-blue)]()
+[![License](https://img.shields.io/badge/license-MIT-green)]()
+[![Solana](https://img.shields.io/badge/Built%20for-Solana-9945FF)]()
+[![AI](https://img.shields.io/badge/AI-Powered-black)]()
 
 > AI-powered transaction intelligence for Solana.
 
 Understand every transaction before you sign.
 
+## Table of Contents
+
+- Overview
+- The Problem
+- Our Solution
+- Why LumenaSOL
+- Core Features
+- Architecture
+- Current Status
+- Roadmap
+- Tech Stack
+- Repository Structure
+- License
 ---
 
 ## Overview
@@ -248,21 +265,40 @@ Risk indicators are informational and should not be interpreted as guarantees of
 
 ---
 
+## Architecture
+
+```mermaid
+flowchart LR
+
+A[User]
+--> B[Paste Transaction]
+
+B --> C[Transaction Decoder]
+
+C --> D[Deterministic Analysis]
+
+D --> E[AI Explanation Engine]
+
+E --> F[Plain-English Summary]
+
+F --> G[User Decision]
+
+G --> H[Wallet Signature]
+```
+---
+
 Current Status
 
-Area	Status
-
-Product Vision	✅ Complete
-Repository Foundation	✅ Complete
-Documentation	🚧 In Progress
-Architecture Design	🚧 In Progress
-Transaction Parser	Planned
-AI Explanation Engine	Planned
-Wallet Integration	Planned
-Web Application	Planned
-Solana RPC Integration	Planned
-Browser Extension	Future
-SDK	Future
+| Module | Status |
+|---------|--------|
+| Documentation | ✅ Complete |
+| Product Design | 🚧 In Progress |
+| Architecture | 🚧 In Progress |
+| Transaction Decoder | ⏳ Planned |
+| AI Engine | ⏳ Planned |
+| Wallet Integration | ⏳ Planned |
+| Web App | ⏳ Planned |
+| SDK | 📋 Future |
 
 
 LumenaSOL is currently in the planning and architecture stage.
