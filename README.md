@@ -1,12 +1,8 @@
----
 # LumenaSOL
 
 > AI-powered transaction intelligence for Solana.
 
 Understand every transaction before you sign.
-
-
-
 
 ---
 
