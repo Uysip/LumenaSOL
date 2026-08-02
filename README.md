@@ -1,513 +1,117 @@
 # LumenaSOL
-[![Status](https://img.shields.io/badge/status-Planning-blue)]()
-[![License](https://img.shields.io/badge/license-MIT-green)]()
-[![Solana](https://img.shields.io/badge/Built%20for-Solana-9945FF)]()
-[![AI](https://img.shields.io/badge/AI-Powered-black)]()
 
-> AI-powered transaction intelligence for Solana.
+**AI-powered transaction intelligence for Solana: plain-English explanation of a transaction, before you sign it.**
 
-Understand every transaction before you sign.
+*Goal:* take a Solana transaction, decode what it actually does, and return a plain-language explanation — what moves, what authority is granted, what programs are involved, and what looks unusual — before a wallet is asked to sign.
 
-## Table of Contents
-
-- Overview
-- The Problem
-- Our Solution
-- Why LumenaSOL
-- Core Features
-- Architecture
-- Current Status
-- Roadmap
-- Tech Stack
-- Repository Structure
-- License
----
-
-## Overview
-
-LumenaSOL is an AI-powered transaction intelligence layer that helps users understand Solana transactions in plain English before approving them.
-
-Instead of showing raw instructions, program IDs, and account addresses, LumenaSOL translates complex on-chain activity into clear, human-readable explanations. Users can instantly understand what a transaction does, which assets are involved, which programs are being called, and whether there are any notable risk indicators.
-
-LumenaSOL does not replace wallets, execute transactions, or make decisions on behalf of users. Its goal is to improve transparency and confidence by making Solana transactions understandable to everyone.
-
+> ### Status: concept phase. No implementation exists yet.
+>
+> This describes the intended product, **not** current capability.
+>
+> **Works today:** problem definition, product scope, architecture design, and this documentation set.
+>
+> **Does not exist yet:** transaction decoding, the AI explanation layer, the web app, and any deployed infrastructure. Nothing in this repository can currently explain a real transaction.
+>
+> See **[docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md)** for the full breakdown.
 
 ---
 
-## The Problem
+## Why
 
-Signing a transaction on Solana often requires trusting information that is difficult to interpret.
+Solana wallets show users what a transaction *is*, not what it *does*. A signing prompt lists program IDs, instruction data, and account lists — technically complete, practically unreadable. Most users approving a transaction cannot say with confidence what asset moves, where it goes, or what permission they're granting.
 
-Most wallets display technical details such as:
+The common fix is asking users to "be careful" or read a warning banner. That isn't an understanding model — a user who can't parse the underlying data can't meaningfully evaluate a warning about it either.
 
-Program IDs
+LumenaSOL puts an explanation layer between the transaction and the signature. **Deterministic decoding establishes the facts. AI translates those facts into plain language. The user decides.** The AI layer never signs, never executes, and never overrides the user's own judgment — it only makes the existing data legible.
 
-Instruction indexes
+## Product philosophy
 
-Account addresses
+- LumenaSOL **never** stores private keys, seed phrases, or wallet credentials. There is no code path that could hold one.
+- LumenaSOL **never** signs or executes a transaction on a user's behalf. Signing always happens in the user's own wallet.
+- AI explanation is generated only from **deterministically decoded, verified transaction data** — never from unconstrained inference about what a transaction "probably" does.
+- If the AI layer is unavailable, the deterministic decode output should still be usable on its own — degraded readability, not degraded correctness.
+- **Explain, don't decide.** LumenaSOL surfaces what a transaction does and flags what's unusual about it. It doesn't tell a user whether to approve it.
 
-Raw transaction metadata
+This is a pre-signature information layer, not a guarantee of transaction safety. It is not a security scanner and does not produce a standalone "safe / unsafe" score for tokens or wallets independent of a specific transaction.
 
+## Current status
 
-While experienced developers may understand these details, most users cannot easily determine:
+| Area | State |
+|---|---|
+| Problem definition, positioning, product scope | **Done** |
+| Repository structure and documentation set | **Done** |
+| Architecture design (decode → analyze → explain pipeline) | **In progress** |
+| Transaction decoding (System Program, SPL Token) | **Not implemented** |
+| Deterministic risk-flag rules | **Not implemented** |
+| AI explanation layer | **Not implemented** |
+| Web app (chat-style interface, no wallet connect required) | **Not implemented** |
+| Deployment | **Not implemented** |
 
-What exactly will happen after signing?
+Nothing marked "Not implemented" has a working code path in this repository. This table is the single source of truth for project status — if other documents in this repo imply otherwise, this table is correct and they are stale.
 
-Which assets are leaving the wallet?
+Full breakdown: **[docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md)**.
 
-Which assets will be received?
+## What it will check (v0.1 scope)
 
-Is this transaction performing actions beyond what I expect?
+The first working version is scoped narrowly on purpose — one input type, two programs, no standalone scoring:
 
-Is there anything unusual or potentially risky?
+| Signal | What it means |
+|---|---|
+| Asset transfer direction and amount | What's actually moving, in and out |
+| Token approval scope | Whether an approval is bounded or unlimited |
+| Program identity | Which known program(s) the transaction interacts with |
+| Unrecognized program or instruction | Flagged for explicit human attention rather than silently explained |
 
+Wallet-level and token-level scoring (the kind of general "is this token safe" check tools like RugCheck already do well) is explicitly out of scope for v0.1. LumenaSOL's differentiation is explaining a specific transaction in context, not re-building a general-purpose scanner.
 
-As Solana applications become increasingly sophisticated, transaction complexity grows while user understanding does not.
+## Planned repository layout
 
-The result is simple:
-
-Users are expected to approve transactions they do not fully understand.
-
-
----
-
-## Our Solution
-
-LumenaSOL bridges the gap between raw blockchain data and human understanding.
-
-Instead of presenting technical transaction structures, LumenaSOL provides an intelligent explanation that summarizes:
-
-What the transaction does
-
-Assets sent
-
-Assets received
-
-Programs involved
-
-Expected balance changes
-
-Potential risk indicators
-
-Plain-English explanation
-
-
-The objective is not to decide for users.
-
-The objective is to help users make informed decisions.
-
-
----
-
-## Why AI?
-
-AI is often used to automate actions.
-
-LumenaSOL uses AI differently.
-
-AI is responsible for translating complex blockchain activity into explanations that humans can easily understand.
-
-Critical transaction analysis remains deterministic wherever possible.
-
-AI never signs transactions.
-
-AI never owns private keys.
-
-AI never performs blockchain actions.
-
-Instead, AI serves as an intelligent explanation layer on top of verified transaction data.
-
-
----
-
-## Core Principles
-
-LumenaSOL is built around several principles.
-
-Human Understanding First
-
-Blockchain data should be understandable without requiring technical expertise.
-
-
----
-
-Deterministic Before Generative
-
-Whenever objective blockchain data is available, deterministic analysis always comes first.
-
-AI enhances explanations—it does not replace factual analysis.
-
-
----
-
-Explain, Don't Decide
-
-LumenaSOL provides context and explanations.
-
-Final transaction approval always belongs to the user.
-
-
----
-
-Non-Custodial
-
-LumenaSOL never stores:
-
-Private keys
-
-Seed phrases
-
-Wallet credentials
-
-
-Users always sign transactions using their own wallet.
-
-
----
-
-Read Before Trust
-
-Every transaction deserves explanation before approval.
-
-
----
-
-Product Vision
-
-Our long-term vision is to become the intelligence layer for Solana transactions.
-
-Today, wallets focus on executing transactions.
-
-LumenaSOL focuses on helping users understand them.
-
-As the ecosystem grows, transaction intelligence should become a standard layer available to every wallet, application, and AI agent interacting with Solana.
-
-
----
-
-Planned Intelligence Modules
-
-Transaction Intelligence
-
-Explain transaction behavior before signing.
-
-Features:
-
-Transaction summary
-
-Asset flow
-
-Program identification
-
-Balance changes
-
-Human-readable explanation
-
-
-
----
-
-Wallet Intelligence
-
-Analyze wallet behavior.
-
-Examples include:
-
-Wallet activity
-
-Portfolio overview
-
-Transaction patterns
-
-Behavioral insights
-
-
-
----
-
-Token Intelligence
-
-Provide contextual information about SPL tokens.
-
-Examples:
-
-Metadata
-
-Token authority
-
-Supply information
-
-Holder distribution
-
-Risk observations
-
-
-
----
-
-Risk Intelligence
-
-Highlight unusual transaction characteristics.
-
-Examples:
-
-Unknown programs
-
-Large unexpected transfers
-
-Authority changes
-
-Suspicious transaction behavior
-
-
-Risk indicators are informational and should not be interpreted as guarantees of safety.
-
-
----
-
-## Architecture
-
-```mermaid
-flowchart LR
-
-A[User]
---> B[Paste Transaction]
-
-B --> C[Transaction Decoder]
-
-C --> D[Deterministic Analysis]
-
-D --> E[AI Explanation Engine]
-
-E --> F[Plain-English Summary]
-
-F --> G[User Decision]
-
-G --> H[Wallet Signature]
 ```
----
-
-Current Status
-
-| Module | Status |
-|---------|--------|
-| Documentation | ✅ Complete |
-| Product Design | 🚧 In Progress |
-| Architecture | 🚧 In Progress |
-| Transaction Decoder | ⏳ Planned |
-| AI Engine | ⏳ Planned |
-| Wallet Integration | ⏳ Planned |
-| Web App | ⏳ Planned |
-| SDK | 📋 Future |
-
-
-LumenaSOL is currently in the planning and architecture stage.
-
-This repository documents the intended product and technical direction.
-
-Production functionality has not yet been implemented.
-
-
----
-
-High-Level Architecture
-
-User
-
-↓
-
-Paste Transaction
-
-↓
-
-Transaction Parser
-
-↓
-
-Deterministic Analysis
-
-↓
-
-AI Explanation Layer
-
-↓
-
-Human-readable Intelligence
-
-↓
-
-User Reviews
-
-↓
-
-Wallet Approval
-
-AI never bypasses wallet approval.
-
-Every transaction remains under user control.
-
-
----
-
-Repository Structure
-
 LumenaSOL/
+  README.md
+  LICENSE
+  ROADMAP.md
+  CHANGELOG.md
+  CONTRIBUTING.md
+  SECURITY.md
 
-README.md
+  docs/
+    PRODUCT.md               # Full product spec
+    ARCHITECTURE.md          # Decode -> analyze -> explain pipeline design
+    IMPLEMENTATION_STATUS.md # Live, authoritative status table
+    IMPLEMENTATION_PLAN.md   # Milestone breakdown
+    SECURITY_MODEL.md        # Trust boundaries, threat model
+    AI_DESIGN.md             # Constraints on the AI explanation layer
+    TECH_STACK.md            # Stack choices and rationale
 
-LICENSE
+  apps/web/                  # NOT IMPLEMENTED — reference web client
+  packages/core/             # NOT IMPLEMENTED — deterministic decode/analysis engine
+  packages/sdk/              # NOT IMPLEMENTED — future public SDK surface
+  assets/                    # Brand and diagram source files
+```
 
-ROADMAP.md
+The core decoding/analysis logic is planned as a separate package from the web app on purpose: it needs to be testable without a browser, and reusable later as an SDK or MCP server without dragging UI code along with it.
 
-CHANGELOG.md
+## Local setup
 
-CONTRIBUTING.md
+**There is nothing to run yet.** No package has a working entry point, and no `npm install` will produce a usable tool today. This section will be replaced with real setup instructions once `packages/core` has a working decode path — tracked in [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md).
 
-docs/
+## Planned stack
 
-PRODUCT.md
+| Layer | Choice | Why |
+|---|---|---|
+| Solana SDK | `@solana/web3.js` or `@solana/kit` | Final pick recorded in [docs/TECH_STACK.md](docs/TECH_STACK.md) once decoding work starts — not needed to make this decision before any decode code exists |
+| Decoding | `@solana/spl-token` + native System Program layouts | Covers the two program types in v0.1 scope |
+| AI | Claude or OpenAI API, constrained to decoded structured input | Explanation only — never given raw signing authority |
+| Web app | Next.js, chat-style UI | Matches the "paste a transaction, get an explanation" interaction model, no wallet connect required |
+| Auth | Email / social login | Deliberately not wallet-based — using LumenaSOL shouldn't require exposing a wallet |
 
-ARCHITECTURE.md
+Nothing here is locked in code yet; this table reflects current intent, not a dependency that's actually installed.
 
-IMPLEMENTATION_STATUS.md
+## Credentials
 
-IMPLEMENTATION_PLAN.md
+No API keys, private keys, seed phrases, or wallet credentials are stored in this repository, and none are needed to read or evaluate any of the current documentation.
 
-SECURITY_MODEL.md
+## License
 
-AI_DESIGN.md
-
-apps/
-
-web/
-
-packages/
-
-core/
-
-sdk/
-
-
----
-
-Planned Technology Stack
-
-Frontend
-
-Next.js
-
-React
-
-TailwindCSS
-
-TypeScript
-
-
-Backend
-
-Next.js API Routes
-
-Node.js
-
-
-Solana
-
-@solana/web3.js
-
-Solana RPC
-
-
-AI
-
-OpenAI
-
-Claude
-
-Structured prompting
-
-
-Deployment
-
-Vercel
-
-
-
----
-
-Security Model
-
-LumenaSOL is an intelligence platform.
-
-It is not a wallet.
-
-It is not a custody solution.
-
-It never stores user credentials.
-
-All transaction approvals remain inside supported wallet applications.
-
-LumenaSOL only analyzes publicly available transaction information and provides explanations before users choose whether to continue.
-
-
----
-
-Roadmap
-
-Phase 1
-
-Repository foundation
-
-Documentation
-
-Architecture
-
-
----
-
-Phase 2
-
-Transaction parser
-
-Instruction decoding
-
-Program detection
-
-
----
-
-Phase 3
-
-AI explanation engine
-
-Risk intelligence
-
-Wallet integration
-
-
----
-
-Phase 4
-
-Public MVP
-
-Browser extension
-
-SDK
-
-Developer API
-
-
----
-
-Open Source
-
-LumenaSOL is being built as an open-source project.
-
-Community contributions, feedback, and discussions are welcome as the project evolves.
-
-
----
-
-License
-
-Released under the MIT License.
+MIT
