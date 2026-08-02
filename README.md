@@ -1,5 +1,12 @@
 # LumenaSOL
 
+[![Status](https://img.shields.io/badge/status-Planning-blue)]()
+[![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
+[![Solana](https://img.shields.io/badge/Built%20for-Solana-9945FF)]()
+[![AI](https://img.shields.io/badge/AI-Powered-black)]()
+
+**AI-powered transaction intelligence for Solana: plain-English explanation of a transaction, before you sign it.**
+
 **AI-powered transaction intelligence for Solana: plain-English explanation of a transaction, before you sign it.**
 
 *Goal:* take a Solana transaction, decode what it actually does, and return a plain-language explanation — what moves, what authority is granted, what programs are involved, and what looks unusual — before a wallet is asked to sign.
